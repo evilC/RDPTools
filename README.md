@@ -21,3 +21,5 @@ hwnd: The Window Handle of the session window.
 	On connect, hwnd will be the HWND of the session window
 	On disconnect (User logged off), hwnd will be unset (e will still be 0, as this is a "success")
 ```
+
+RDPConnect uses ```ControlSend``` for all sending of keyboard input directly to the HWND of the RDP window(s), so it should be (reasonably) immune to the user performing other functions whilst RDPConnect is connecting.
