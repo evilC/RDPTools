@@ -23,3 +23,6 @@ hwnd: The Window Handle of the session window.
 ```
 
 RDPConnect uses ```ControlSend``` for all sending of keyboard input directly to the HWND of the RDP window(s), so it should be (reasonably) immune to the user performing other functions whilst RDPConnect is connecting.
+
+WARNING: Whilst RDPConnect does not store any passwords, in order to use it, you will probably need to store passwords on your disk.  
+RDPConnect is NOT RECOMMENDED for use-cases where you wish to keep your password(s) private. It's primary use-case is intended for test environments and the like, where password secrecy is not an issue.
