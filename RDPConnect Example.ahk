@@ -11,19 +11,21 @@ return
 
 class MyClass {
 	__New(){
-		this.address := "192.168.0.2"
-		this.login := "MYDOMAIN\MyUser"
-		this.password := "P@ssword"
+		; Assign a hotkey to launch the RDP session
 		fn := this.Connect.Bind(this)
 		hotkey, F1, % fn
 	}
 	
 	; The hotkey was pressed
 	Connect(){
+		address := "192.168.0.2"
+		login := "MYDOMAIN\MyUser"
+		password := "P@ssword"
+		
 		; Start the connection attempt with the specified credentials.
 		; Also uses the WaitForDesktopColor option to wait for pixel 0, 0 of the session window to be pure white...
 		; ... this attempts to detect "Ready" state of the remoote machine (As long as the desktop is white!)
-		this.rdp := new RDPConnect(this.address, this.login, this.password, this.SessionEvent.Bind(this), {WaitForDesktopColor: "0xFFFFFF"})
+		this.rdp := new RDPConnect(address, login, password, this.SessionEvent.Bind(this), {WaitForDesktopColor: "0xFFFFFF"})
 	}
 	
 	; SessionEvent will be called when something changes about the session connection
