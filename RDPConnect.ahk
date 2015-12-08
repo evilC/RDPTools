@@ -11,7 +11,7 @@ All UI interactions (Key sending, Form filling) do not require the RDP windows t
 */
 
 class RDPConnect {
-	static version := "1.0.9"
+	static version := "1.0.10"
 	/*
 	Instantiate this class to initiate a new RDP Session
 	new RDPConnect(Address, UserName, Password, Callback)
@@ -135,11 +135,11 @@ class RDPConnect {
 				; Enter name of machine into "Computer" editbox
 				ControlSetText, Edit1, % this._address, % "ahk_id " hwnd
 				Sleep % this._options.DefaultSleep
-				while (!WinExist("Remote Desktop Connection ahk_exe mstsc.exe ahk_class #32770 ahk_pid " this.pid, "Connecting to:") && !this.LoginWindowExists() && !this.IdentityWindowExists()){
+				;while (!WinExist("Remote Desktop Connection ahk_exe mstsc.exe ahk_class #32770 ahk_pid " this.pid, "Connecting to:") && !this.LoginWindowExists() && !this.IdentityWindowExists()){
 					; Click "Connect"
 					ControlClick, Button5, % "ahk_id " hwnd
-					Sleep 100
-				}
+					;Sleep 100
+				;}
 				Sleep 250
 			}
 		}
@@ -162,7 +162,7 @@ class RDPConnect {
 			} else {
 				; Send Down Arrow to select "Use another account"
 				this.Log("Login Window: Entering credentials...")
-				WinActivate, % "ahk_id " hwnd
+				;WinActivate, % "ahk_id " hwnd
 				Sleep % this._options.DefaultSleep
 				ControlSend, , {down}, % "ahk_id " hwnd
 				Sleep % this._options.DefaultSleep
@@ -173,10 +173,10 @@ class RDPConnect {
 				if (!this._options.ShowOptions){
 					Sleep % this._options.DefaultSleep
 					; Click OK
-					while (WinExist("ahk_id " hwnd)){
+					;while (WinExist("ahk_id " hwnd)){
 						ControlClick, Button2, % "ahk_id " hwnd
-						Sleep 100
-					}
+						;Sleep 100
+					;}
 				}
 				this._LoginAttempts++
 				;msgbox % this._options.ShowOptions
@@ -194,11 +194,11 @@ class RDPConnect {
 			; Tick "Don't ask me again for connections to this computer"
 			ControlClick, Button3, % "ahk_id " hwnd
 			Sleep % this._options.DefaultSleep
-			while (WinExist("ahk_id " hwnd)){
+			;while (WinExist("ahk_id " hwnd)){
 				; Click "Yes"
 				ControlClick, Button5, % "ahk_id " hwnd
-				Sleep 100
-			}
+				;Sleep 100
+			;}
 		}
 	}
 	
@@ -225,11 +225,11 @@ class RDPConnect {
 			; Tick "Don't ask me again for connections to this computer"
 			ControlClick, Button1, % "ahk_id " hwnd
 			Sleep % this._options.DefaultSleep
-			while (WinExist("ahk_id " hwnd)){
+			;while (WinExist("ahk_id " hwnd)){
 				; Click "Yes"
 				ControlClick, Button2, % "ahk_id " hwnd
-				Sleep 100
-			}
+				;Sleep 100
+			;}
 		}
 	}
 	
