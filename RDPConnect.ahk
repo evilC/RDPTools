@@ -11,7 +11,7 @@ All UI interactions (Key sending, Form filling) do not require the RDP windows t
 */
 
 class RDPConnect {
-	static version := "1.0.10"
+	static version := "1.0.12"
 	/*
 	Instantiate this class to initiate a new RDP Session
 	new RDPConnect(Address, UserName, Password, Callback)
@@ -91,16 +91,25 @@ class RDPConnect {
 			t := t[1]
 			if (t = "The remote computer could not be authenticated due to problems with its security certificate. It may be unsafe to proceed."){
 				if (hwnd != this._CertificateWindow){
+					this.Log("Certificate Window detected")
 					this.CertificateWindowChanged(hwnd)
+					return
+				}
+			} else if (t = "This remote connection could harm your local or remote computer. Make sure that you trust the remote computer before you connect."){
+				if (hwnd != this._WarningWindow){
+					this.Log("Warning Window detected")
+					this.WarningWindowChanged(hwnd)
 					return
 				}
 			} else if (this.IdentityWindowExists()) {
 				if (hwnd != this._IdentityWindow){
+					this.Log("Identity Window detected")
 					this.IdentityWindowChanged(hwnd)
 					return
 				}
 			} else {
 				if (hwnd != this._SelectWindow){
+					this.Log("Select Window detected")
 					this.SelectWindowChanged(hwnd)
 					return
 				}
@@ -149,8 +158,19 @@ class RDPConnect {
 		return WinExist("Windows Security ahk_exe mstsc.exe ahk_class #32770 ahk_pid " this.pid)+0
 	}
 	
+	; The "Warning Window" opened or closed
+	WarningWindowChanged(hwnd){
+		this._WarningWindow := hwnd
+		if (hwnd){
+			Sleep % this._options.DefaultSleep
+			ControlClick, Button1, % "ahk_id " hwnd
+			Sleep % this._options.DefaultSleep
+			ControlClick, Button11, % "ahk_id " hwnd
+		}
+	}
+	
 	; The "Login Window" opened or closed
-	; If the address was valid, then this is the second window that opens
+	; If the address was valid, then this is typically the second window that opens
 	LoginWindowChanged(hwnd){
 		;msgbox % "LoginWindowChanged`n`n New HWND = " hwnd "`nOld HWND = " this._LoginWindow
 		this._LoginWindow := hwnd
