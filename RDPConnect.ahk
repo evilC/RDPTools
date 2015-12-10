@@ -11,7 +11,7 @@ All UI interactions (Key sending, Form filling) do not require the RDP windows t
 */
 
 class RDPConnect {
-	static version := "1.0.12"
+	static version := "1.0.13"
 	/*
 	Instantiate this class to initiate a new RDP Session
 	new RDPConnect(Address, UserName, Password, Callback)
@@ -144,9 +144,10 @@ class RDPConnect {
 				; Enter name of machine into "Computer" editbox
 				ControlSetText, Edit1, % this._address, % "ahk_id " hwnd
 				Sleep % this._options.DefaultSleep
+				ControlSend, , % "{Enter}", % "ahk_id " hwnd
 				;while (!WinExist("Remote Desktop Connection ahk_exe mstsc.exe ahk_class #32770 ahk_pid " this.pid, "Connecting to:") && !this.LoginWindowExists() && !this.IdentityWindowExists()){
 					; Click "Connect"
-					ControlClick, Button5, % "ahk_id " hwnd
+					;ControlClick, Button5, % "ahk_id " hwnd
 					;Sleep 100
 				;}
 				Sleep 250
@@ -184,7 +185,12 @@ class RDPConnect {
 				this.Log("Login Window: Entering credentials...")
 				;WinActivate, % "ahk_id " hwnd
 				Sleep % this._options.DefaultSleep
+				; This part can be unreliable if you are clicking around a lot while it happens
+				Critical
+				WinActivate, % "ahk_id " hwnd
 				ControlSend, , {down}, % "ahk_id " hwnd
+				Critical, Off
+				; end problem section
 				Sleep % this._options.DefaultSleep
 				; Enter Username
 				ControlSetText, Edit2, % this._username, % "ahk_id " hwnd
