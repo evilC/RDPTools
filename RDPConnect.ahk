@@ -11,7 +11,7 @@ All UI interactions (Key sending, Form filling) do not require the RDP windows t
 */
 
 class RDPConnect {
-	static version := "1.0.13"
+	static version := "1.0.14"
 	/*
 	Instantiate this class to initiate a new RDP Session
 	new RDPConnect(Address, UserName, Password, Callback)
@@ -198,9 +198,10 @@ class RDPConnect {
 				ControlSetText, Edit3, % this._password, % "ahk_id " hwnd
 				if (!this._options.ShowOptions){
 					Sleep % this._options.DefaultSleep
+					ControlSend, , % "{Enter}", % "ahk_id " hwnd
 					; Click OK
 					;while (WinExist("ahk_id " hwnd)){
-						ControlClick, Button2, % "ahk_id " hwnd
+						;ControlClick, Button2, % "ahk_id " hwnd
 						;Sleep 100
 					;}
 				}
@@ -220,9 +221,10 @@ class RDPConnect {
 			; Tick "Don't ask me again for connections to this computer"
 			ControlClick, Button3, % "ahk_id " hwnd
 			Sleep % this._options.DefaultSleep
+			ControlSend, , % "{Enter}", % "ahk_id " hwnd
 			;while (WinExist("ahk_id " hwnd)){
 				; Click "Yes"
-				ControlClick, Button5, % "ahk_id " hwnd
+				;ControlClick, Button5, % "ahk_id " hwnd
 				;Sleep 100
 			;}
 		}
@@ -251,9 +253,10 @@ class RDPConnect {
 			; Tick "Don't ask me again for connections to this computer"
 			ControlClick, Button1, % "ahk_id " hwnd
 			Sleep % this._options.DefaultSleep
+			ControlSend, , % "{Enter}", % "ahk_id " hwnd
 			;while (WinExist("ahk_id " hwnd)){
 				; Click "Yes"
-				ControlClick, Button2, % "ahk_id " hwnd
+				;ControlClick, Button2, % "ahk_id " hwnd
 				;Sleep 100
 			;}
 		}
